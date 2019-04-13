@@ -1,0 +1,32 @@
+{
+  "name": "boggle.js",
+  "version": "1.0.0",
+  "description": "Solver for the game of Boggle written in Typescript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Enderer/boggle.js.git"
+  },
+  "keywords": [
+    "boggle",
+    "word",
+    "search"
+  ],
+  "author": "Stephen Marsh",
+  "license": "MIT",
+  "homepage": "https://github.com/Enderer/boggle.js#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.123",
+    "@types/node": "^11.11.3",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.3333"
+  }
+}
