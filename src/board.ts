@@ -3,46 +3,6 @@ import * as _ from 'lodash';
 export interface Cell { c: number, r: number, char: string, visited: boolean };
 export interface Board extends Array<Cell> {};
 export interface Cube extends Array<string> {};
-const cos45 = Math.cos(Math.PI / 4);
-const sin45 = Math.sin(Math.PI / 4);
-
-/**
- * Get all the strings that can be searched on a board
- * This includes all the rows, columns, and diagonals
- */
-export const getDocs: {(b: Board): string[]} = (board) => {
-    // Get the strings for the rows and columns then
-    // rotate the board 45 degress to get the diagonal strings
-    const cols = _(board).groupBy('c').values().orderBy('r').value();
-    const rows = _(board).groupBy('r').values().orderBy('c').value();
-    const diag = board.map(rotateCell);
-    const dCols = _(diag).groupBy('r').values().orderBy('r').value();
-    const dRows = _(diag).groupBy('y').values().orderBy('c').value();
-
-    // Reverse the strings to search backward and forward
-    // then concat all the strings into a single list
-    const docs = [
-        ...rows, 
-        ...cols, 
-        ...dRows, 
-        ...dCols,
-        ..._.reverse(rows),
-        ..._.reverse(cols),
-        ..._.reverse(dRows),
-        ..._.reverse(dCols)
-    ];
-    return docs.map(d => d.join(''));
-};
-
-/**
- * Rotate a cell 45 degrees
- * @param c Cell to be rotated
- */
-export const rotateCell = (cell: Cell): Cell => ({ 
-    ...cell, 
-    c: cell.c * sin45 + cell.r * sin45, 
-    r: cell.c * -sin45 + cell.r * cos45 
-});
 
 /**
  * Create an empty board with the given number of rows and cols
