@@ -39,7 +39,7 @@ export const findWords = (root: Node, board: Board): string[] => {
     return words;
 }
 
-export const searchCell = (board: Board, node: Node, cell: Cell): string[] => {
+export const searchCell = _.curry((board: Board, node: Node, cell: Cell): string[] => {
     if (node.children[cell.char] == null) {
         return [];
     }
@@ -47,8 +47,18 @@ export const searchCell = (board: Board, node: Node, cell: Cell): string[] => {
     cell.visited = true;
     const cellWords = node.value ? [node.value] : [];
     const children = getConnected(board, cell);
-    const childWords = children.map(c => searchCell(board, node, c));
+
+    // Cells with 'Q' should be treated as 'Qu'
+    if (cell.char === 'q') {
+        if (node.children['u'] == null) {
+            return [];
+        }
+        node = node.children['u'];
+    }
+
+    const search = searchCell(board, node);
+    let childWords = children.map(search);
     const words = [...cellWords, ..._.flatten(childWords)];
     cell.visited = false;
     return words;
-}
+});
